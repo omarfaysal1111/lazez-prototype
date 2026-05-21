@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=390, initial-scale=1">
+<title>لذيذ – Lazez</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+:root{
+  --red:#E8202A;--dark:#1C1C1C;--white:#fff;
+  --gray:#F5F5F5;--gray2:#9A9A9A;--teal:#009991;
+  --yellow:#FFC107;--radius:14px;
+}
+body{background:#1a1a1a;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:'Inter',system-ui,sans-serif;}
+.shell{width:390px;height:844px;background:#fff;border-radius:44px;overflow:hidden;position:relative;box-shadow:0 30px 80px rgba(0,0,0,0.5),0 0 0 2px #444;}
+.screen{position:absolute;inset:0;display:flex;flex-direction:column;overflow:hidden;transition:transform .32s cubic-bezier(.4,0,.2,1),opacity .32s;}
+.screen.hidden{transform:translateX(110%);opacity:0;pointer-events:none;}
+.screen.back{transform:translateX(-40%);opacity:0;pointer-events:none;}
+.sbar{height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;font-size:13px;font-weight:600;flex-shrink:0;}
+.btn{display:flex;align-items:center;justify-content:center;border:none;cursor:pointer;font-family:inherit;font-weight:700;border-radius:var(--radius);transition:transform .1s,filter .1s;}
+.btn:active{transform:scale(.97);filter:brightness(.93);}
+
+/* ── SPLASH ── */
+#splash{background:var(--red);}
+#splash .sbar{color:rgba(255,255,255,.85);}
+.sp-bg .b1{position:absolute;width:240px;height:240px;background:rgba(255,255,255,.12);border-radius:50%;top:-70px;left:-70px;}
+.sp-bg .b2{position:absolute;width:200px;height:200px;background:rgba(0,0,0,.15);border-radius:50%;bottom:60px;right:-60px;}
+.sp-bg .b3{position:absolute;width:120px;height:120px;background:rgba(255,255,255,.08);border-radius:50%;top:30px;right:20px;}
+.sp-content{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.logo-card{width:156px;height:156px;background:#fff;border-radius:34px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 12px 40px rgba(0,0,0,.22);margin-bottom:30px;}
+.logo-wordmark{display:flex;align-items:baseline;}
+.logo-wordmark .la{font-size:40px;font-weight:900;color:var(--red);line-height:1;}
+.logo-wordmark .zez{font-size:40px;font-weight:900;color:var(--dark);line-height:1;}
+.logo-crown{font-size:15px;color:var(--red);margin-bottom:2px;}
+.logo-ar{font-size:22px;font-weight:700;color:var(--red);margin-top:8px;}
+.sp-name{font-size:44px;font-weight:900;color:#fff;letter-spacing:-1px;}
+.sp-ar{font-size:30px;font-weight:700;color:rgba(255,255,255,.9);margin-top:4px;}
+.sp-tag{font-size:15px;color:rgba(255,255,255,.72);margin-top:14px;text-align:center;}
+.sp-dots{display:flex;gap:8px;margin-top:48px;}
+.sp-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.35);}
+.sp-dot.active{width:24px;border-radius:4px;background:#fff;}
+
+/* ── LANGUAGE ── */
+#language{background:#fff;}
+.lang-hero{background:var(--red);flex-shrink:0;position:relative;overflow:hidden;padding-bottom:28px;}
+.lang-hero .b1{position:absolute;width:200px;height:200px;background:rgba(255,255,255,.12);border-radius:50%;top:-60px;left:-50px;}
+.lang-hero .b2{position:absolute;width:240px;height:240px;background:rgba(0,0,0,.15);border-radius:50%;bottom:-80px;right:-60px;}
+.lang-hero .sbar{color:rgba(255,255,255,.85);position:relative;z-index:1;}
+.lang-foods{font-size:56px;text-align:center;padding:18px 0 12px;position:relative;z-index:1;letter-spacing:4px;}
+.lang-title{font-size:24px;font-weight:700;color:#fff;text-align:center;position:relative;z-index:1;}
+.lang-sub{font-size:16px;color:rgba(255,255,255,.85);text-align:center;font-weight:500;margin-top:4px;position:relative;z-index:1;}
+.lang-body{padding:28px 24px;display:flex;flex-direction:column;gap:12px;flex:1;}
+.lang-label{font-size:15px;font-weight:600;color:var(--dark);text-align:center;margin-bottom:6px;}
+.lbtn{height:58px;font-size:17px;width:100%;border-radius:var(--radius);}
+.lbtn-primary{background:var(--red);color:#fff;}
+.lbtn-secondary{background:var(--gray);color:var(--dark);}
+.lbtn-outline{background:#fff;color:var(--red);border:2px solid var(--red);}
+.lang-terms{font-size:11px;color:var(--gray2);text-align:center;margin-top:auto;}
+
+/* ── SIGN IN ── */
+#signin{background:#fff;}
+.si-hero{background:var(--red);flex-shrink:0;position:relative;overflow:hidden;padding:0 20px 24px;}
+.si-hero .b1{position:absolute;width:180px;height:180px;background:rgba(255,255,255,.12);border-radius:50%;top:-50px;left:-40px;}
+.si-hero .b2{position:absolute;width:160px;height:160px;background:rgba(0,0,0,.15);border-radius:50%;top:10px;right:-40px;}
+.si-hero .sbar{color:rgba(255,255,255,.85);position:relative;z-index:1;}
+.si-hero-inner{position:relative;z-index:1;padding-top:8px;}
+.bk{width:40px;height:40px;background:rgba(255,255,255,.2);border-radius:12px;border:none;cursor:pointer;color:#fff;font-size:20px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;}
+.si-hero h1{font-size:28px;font-weight:700;color:#fff;}
+.si-hero .ar{font-size:15px;color:rgba(255,255,255,.8);margin-top:2px;}
+.si-hero .wlc{font-size:13px;color:rgba(255,255,255,.65);margin-top:4px;}
+.si-body{padding:22px 22px;overflow-y:auto;flex:1;display:flex;flex-direction:column;}
+.flabel{font-size:12px;color:var(--gray2);margin-bottom:6px;display:flex;justify-content:space-between;direction:ltr;}
+.field{background:var(--gray);border-radius:12px;height:54px;display:flex;align-items:center;padding:0 14px;gap:10px;margin-bottom:16px;}
+.field input{border:none;background:none;font-size:14px;color:var(--dark);flex:1;font-family:inherit;outline:none;direction:ltr;}
+.field input::placeholder{color:var(--gray2);}
+.field .ico{font-size:20px;}
+.forgot{font-size:13px;color:var(--red);font-weight:500;text-align:left;margin-bottom:20px;cursor:pointer;direction:ltr;}
+.si-btn{height:56px;background:var(--red);color:#fff;font-size:18px;font-weight:700;width:100%;border-radius:var(--radius);border:none;cursor:pointer;font-family:inherit;margin-bottom:0;}
+.divider{display:flex;align-items:center;gap:10px;margin:16px 0;direction:ltr;}
+.divider hr{flex:1;border:none;border-top:1px solid #e8e8e8;}
+.divider span{font-size:13px;color:var(--gray2);}
+.soc-btn{height:52px;border-radius:12px;font-size:15px;font-weight:500;width:100%;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;border:none;font-family:inherit;direction:ltr;}
+.soc-g{background:var(--gray);color:var(--dark);}
+.soc-a{background:var(--dark);color:#fff;}
+.reg-link{text-align:center;margin-top:14px;font-size:14px;color:var(--gray2);direction:ltr;}
+.reg-link a{color:var(--red);font-weight:700;cursor:pointer;}
+
+/* ── MENU (main screen) ── */
+#menu{background:#f7f7f7;}
+.menu-hero{background:var(--red);flex-shrink:0;position:relative;overflow:hidden;}
+.menu-hero .b1{position:absolute;width:160px;height:160px;background:rgba(255,255,255,.1);border-radius:50%;top:-40px;left:-30px;}
+.menu-hero .b2{position:absolute;width:160px;height:160px;background:rgba(0,0,0,.15);border-radius:50%;bottom:-40px;right:-30px;}
+.menu-topbar{display:flex;align-items:center;justify-content:space-between;padding:0 14px 10px;position:relative;z-index:1;}
+.icon-btn{width:36px;height:36px;background:rgba(255,255,255,.2);border-radius:10px;border:none;cursor:pointer;font-size:17px;color:#fff;display:flex;align-items:center;justify-content:center;}
+.promo-strip{background:rgba(0,0,0,.18);margin:0 12px 14px;border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:10px;position:relative;z-index:1;}
+.promo-strip .pt{flex:1;}
+.promo-strip .pt1{font-size:14px;font-weight:700;color:#fff;}
+.promo-strip .pt2{font-size:12px;color:rgba(255,255,255,.75);}
+.promo-strip .price{font-size:24px;font-weight:900;color:var(--yellow);}
+/* Rest info */
+.rinfo{background:#fff;padding:14px 14px 10px;display:flex;gap:12px;align-items:center;border-bottom:1px solid #f0f0f0;flex-shrink:0;}
+.rlogo{width:66px;height:66px;background:var(--red);border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;}
+.rlogo .rl1{font-size:15px;font-weight:900;color:#fff;line-height:1.1;}
+.rlogo .rl2{font-size:9px;color:var(--yellow);margin-top:1px;}
+.rdetail{flex:1;}
+.rdetail .rname{font-size:20px;font-weight:700;color:var(--dark);}
+.rdetail .rsub{font-size:12px;color:var(--gray2);margin-top:1px;}
+.rdetail .rmeta{display:flex;gap:12px;margin-top:5px;font-size:12px;flex-wrap:wrap;}
+.rdetail .rmeta .star{color:#FF7200;font-weight:700;}
+.rdel{font-size:13px;font-weight:700;color:var(--red);text-align:center;flex-shrink:0;}
+/* Tabs */
+.tabs{display:flex;gap:8px;padding:10px 12px;background:#fff;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid #f0f0f0;flex-shrink:0;}
+.tabs::-webkit-scrollbar{display:none;}
+.tab{padding:8px 16px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;border:none;font-family:inherit;transition:all .2s;}
+.tab.on{background:var(--red);color:#fff;}
+.tab:not(.on){background:var(--gray);color:var(--dark);}
+/* Items */
+.mbody{flex:1;overflow-y:auto;padding:14px 12px 90px;}
+.msec{font-size:18px;font-weight:700;color:var(--dark);margin-bottom:12px;}
+.mitem{background:#fff;border:1px solid #efefef;border-radius:14px;padding:12px;display:flex;gap:10px;align-items:center;margin-bottom:10px;cursor:pointer;transition:transform .12s;}
+.mitem:active{transform:scale(.98);}
+.mitem-img{width:90px;height:90px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:46px;flex-shrink:0;}
+.mitem-body{flex:1;display:flex;flex-direction:column;align-items:flex-end;}
+.mitem-name{font-size:15px;font-weight:700;color:var(--dark);text-align:right;}
+.mitem-desc{font-size:12px;color:var(--gray2);text-align:right;margin-top:3px;}
+.mitem-footer{display:flex;align-items:center;justify-content:space-between;width:100%;margin-top:10px;}
+.mitem-price{font-size:16px;font-weight:700;color:var(--red);}
+.add-btn{width:32px;height:32px;background:var(--red);border-radius:9px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;font-weight:700;cursor:pointer;border:none;transition:transform .1s;}
+.add-btn:active{transform:scale(.88);}
+/* Checkout bar */
+.ckbar{position:absolute;bottom:0;left:0;right:0;background:var(--red);height:78px;display:flex;align-items:center;padding:0 18px;gap:12px;cursor:pointer;display:none;}
+.ck-icon{position:relative;}
+.ck-badge{position:absolute;top:-7px;right:-7px;background:#fff;color:var(--red);font-size:10px;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+.ck-label{flex:1;font-size:17px;font-weight:700;color:#fff;text-align:right;}
+.ck-total{font-size:16px;font-weight:700;color:var(--yellow);}
+
+/* ── CART ── */
+#cart{background:#f7f7f7;}
+.pheader{background:#fff;padding:14px 18px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #f0f0f0;flex-shrink:0;}
+.pheader h2{font-size:19px;font-weight:700;color:var(--dark);flex:1;}
+.pheader .psub{font-size:13px;color:var(--gray2);}
+.cbody{flex:1;overflow-y:auto;padding:12px 12px 0;}
+.citem{background:#fff;border-radius:14px;padding:12px;display:flex;gap:10px;align-items:center;margin-bottom:10px;}
+.citem-img{width:72px;height:72px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:38px;flex-shrink:0;}
+.citem-info{flex:1;}
+.citem-name{font-size:15px;font-weight:600;color:var(--dark);text-align:right;}
+.citem-price{font-size:13px;color:var(--red);font-weight:700;margin-top:2px;text-align:right;}
+.qrow{display:flex;align-items:center;gap:10px;margin-top:8px;justify-content:flex-end;}
+.qbtn{width:28px;height:28px;border-radius:7px;border:none;cursor:pointer;font-size:16px;font-weight:700;display:flex;align-items:center;justify-content:center;font-family:inherit;}
+.qbtn.m{background:var(--gray);color:var(--dark);}
+.qbtn.p{background:var(--red);color:#fff;}
+.qval{font-size:15px;font-weight:700;color:var(--dark);min-width:18px;text-align:center;}
+.delbtn{font-size:17px;cursor:pointer;color:var(--gray2);margin-right:auto;}
+.itotal{font-size:14px;font-weight:700;color:var(--dark);}
+.sumcard{background:#fff;border-radius:14px;padding:16px;margin-bottom:10px;}
+.sumcard h3{font-size:16px;font-weight:700;color:var(--dark);margin-bottom:12px;}
+.srow{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f8f8f8;font-size:13px;}
+.srow:last-child{border:none;}
+.srow.total{font-size:15px;font-weight:700;}
+.srow.total .v{color:var(--red);}
+.srow.disc .v{color:var(--teal);}
+.promobox{background:#fff;border-radius:12px;padding:14px;display:flex;align-items:center;margin-bottom:10px;}
+.promobox span{flex:1;font-size:13px;}
+.promobox .ap{font-size:14px;font-weight:700;color:var(--teal);}
+.cfooter{padding:12px;}
+.bigbtn{height:56px;width:100%;border-radius:var(--radius);background:var(--red);color:#fff;font-size:17px;font-weight:700;border:none;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;}
+.bigbtn:active{filter:brightness(.9);}
+
+/* ── CHECKOUT ── */
+#checkout{background:#f7f7f7;}
+.steps{background:#fff;padding:14px 20px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-c{display:flex;flex-direction:column;align-items:center;gap:4px;}
+.step-o{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;}
+.step-o.on{background:var(--red);color:#fff;}
+.step-o.done{background:#4CAF50;color:#fff;}
+.step-o.off{background:var(--gray);color:var(--gray2);}
+.step-lbl{font-size:10px;font-weight:600;}
+.step-lbl.on{color:var(--red);}
+.step-lbl.off{color:var(--gray2);}
+.step-line{width:44px;height:2px;background:#e0e0e0;margin:0 2px 16px;}
+.cobody{flex:1;overflow-y:auto;padding:12px;}
+.scard{background:#fff;border-radius:14px;padding:16px;margin-bottom:12px;}
+.scard h3{font-size:15px;font-weight:700;color:var(--dark);margin-bottom:12px;display:flex;gap:8px;align-items:baseline;}
+.scard h3 .ar2{font-size:12px;color:var(--gray2);font-weight:400;}
+.mapbox{background:#E8F5E9;border-radius:10px;height:82px;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:12px;cursor:pointer;}
+.mapbox .loc{font-size:14px;font-weight:600;color:var(--teal);}
+.mapbox .chg{font-size:12px;color:var(--red);font-weight:500;}
+.fsm{background:var(--gray);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--dark);border:none;width:100%;font-family:inherit;outline:none;direction:ltr;}
+.payopt{display:flex;align-items:center;gap:12px;padding:10px;border-radius:10px;cursor:pointer;margin-bottom:6px;}
+.payopt.on{background:#FFF0F0;}
+.payopt .pio{font-size:22px;width:30px;text-align:center;}
+.payopt .pin{font-size:13px;font-weight:600;color:var(--dark);}
+.payopt .pis{font-size:11px;color:var(--gray2);}
+.radio{width:18px;height:18px;border-radius:50%;border:2px solid #ccc;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.radio.on{border-color:var(--red);}
+.radio.on::after{content:'';width:8px;height:8px;background:var(--red);border-radius:50%;display:block;}
+.promo-ok{background:#E8F5E9;border-radius:12px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.promo-ok .pc{font-size:14px;font-weight:700;color:var(--teal);}
+.promo-ok .ps{font-size:12px;color:var(--teal);}
+.cofooter{padding:12px;}
+
+/* ── CONFIRMED ── */
+#confirmed{background:#fff;}
+.conbody{flex:1;display:flex;flex-direction:column;align-items:center;padding:28px 22px;overflow-y:auto;}
+.check-out{width:130px;height:130px;background:rgba(232,32,42,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:22px;}
+.check-in{width:90px;height:90px;background:var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:42px;color:#fff;font-weight:700;animation:pop .4s cubic-bezier(.4,0,.2,1);}
+@keyframes pop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+.con-title{font-size:30px;font-weight:800;color:var(--dark);}
+.con-ar{font-size:18px;color:var(--gray2);margin-top:4px;}
+.oid{background:var(--gray);border-radius:12px;padding:14px 18px;width:100%;margin:18px 0 14px;}
+.oid-lbl{font-size:12px;color:var(--gray2);}
+.oid-val{font-size:17px;font-weight:700;color:var(--dark);margin-top:2px;}
+.tcard{border:1px solid #efefef;border-radius:16px;padding:16px;width:100%;margin-bottom:14px;}
+.tcard h3{font-size:15px;font-weight:700;color:var(--dark);margin-bottom:14px;}
+.tstep{display:flex;gap:10px;padding:6px 0;align-items:flex-start;}
+.tstep-ico{font-size:18px;width:24px;text-align:center;}
+.tstep-lbl{font-size:13px;font-weight:600;color:var(--dark);}
+.tstep-lbl.off{color:var(--gray2);font-weight:400;}
+.tstep-time{font-size:11px;color:var(--gray2);}
+.tstep-time.on{color:var(--red);font-weight:600;}
+.con-actions{width:100%;display:flex;flex-direction:column;gap:10px;margin-top:6px;}
+.ghost{height:52px;border-radius:12px;background:var(--gray);color:var(--dark);font-size:15px;font-weight:500;border:none;cursor:pointer;font-family:inherit;width:100%;}
+.homelink{font-size:15px;font-weight:700;color:var(--red);text-align:center;cursor:pointer;padding:8px;}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<!-- ══ 1. SPLASH ══ -->
+<div class="screen" id="splash">
+  <div class="sp-bg"><div class="b1"></div><div class="b2"></div><div class="b3"></div></div>
+  <div class="sbar" style="color:rgba(255,255,255,.85);position:relative;z-index:1;"><span>9:55</span><span>▲ 5G 🔋</span></div>
+  <div class="sp-content">
+    <div class="logo-card">
+      <div class="logo-wordmark">
+        <span class="la">la</span><span class="zez">Zez</span><span class="logo-crown">♛</span>
+      </div>
+      <div class="logo-ar">لذيذ</div>
+    </div>
+    <div class="sp-name">Lazez</div>
+    <div class="sp-ar">لذيذ</div>
+    <div class="sp-tag">Order Food. Love Every Bite.</div>
+    <div class="sp-dots">
+      <div class="sp-dot active"></div>
+      <div class="sp-dot"></div>
+      <div class="sp-dot"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 2. LANGUAGE ══ -->
+<div class="screen hidden" id="language">
+  <div class="lang-hero">
+    <div class="b1"></div><div class="b2"></div>
+    <div class="sbar" style="color:rgba(255,255,255,.85);"><span>9:55</span><span>▲ 5G 🔋</span></div>
+    <div class="lang-foods">🍗 🥩 🍖 🍔</div>
+    <div class="lang-title">Welcome to Lazez</div>
+    <div class="lang-sub">أهلاً بك في لذيذ</div>
+  </div>
+  <div class="lang-body">
+    <div class="lang-label">Choose your language / اختر لغتك</div>
+    <button class="btn lbtn lbtn-primary" onclick="go('signin')">🇬🇧 &nbsp;English</button>
+    <button class="btn lbtn lbtn-secondary" onclick="go('signin')">🇪🇬 &nbsp;العربية</button>
+    <button class="btn lbtn lbtn-outline" onclick="go('signin')">Both / كلاهما</button>
+    <div class="lang-terms">By continuing you agree to our Terms &amp; Privacy Policy</div>
+  </div>
+</div>
+
+<!-- ══ 3. SIGN IN ══ -->
+<div class="screen hidden" id="signin">
+  <div class="si-hero">
+    <div class="b1"></div><div class="b2"></div>
+    <div class="sbar" style="color:rgba(255,255,255,.85);position:relative;z-index:1;"><span>9:55</span><span>▲ 5G 🔋</span></div>
+    <div class="si-hero-inner">
+      <button class="bk" onclick="gb('language')">←</button>
+      <h1>Sign In</h1>
+      <div class="ar">تسجيل الدخول</div>
+      <div class="wlc">Welcome back! 👋</div>
+    </div>
+  </div>
+  <div class="si-body">
+    <div class="flabel"><span>Phone Number</span><span>رقم الهاتف</span></div>
+    <div class="field"><span class="ico">📞</span><input type="tel" placeholder="+20  Enter your phone number"></div>
+    <div class="flabel"><span>Password</span><span>كلمة المرور</span></div>
+    <div class="field"><span class="ico">🔒</span><input type="password" placeholder="Enter password"><span style="font-size:18px;cursor:pointer;">👁</span></div>
+    <div class="forgot">Forgot password? / نسيت كلمة المرور؟</div>
+    <button class="btn si-btn" onclick="go('menu')">Sign In / دخول</button>
+    <div class="divider"><hr><span>or</span><hr></div>
+    <button class="soc-btn soc-g" onclick="go('menu')">🌐&nbsp; Continue with Google</button>
+    <button class="soc-btn soc-a" onclick="go('menu')">🍎&nbsp; Continue with Apple</button>
+    <div class="reg-link">Don't have an account? <a onclick="go('menu')">Register / سجل الآن</a></div>
+  </div>
+</div>
+
+<!-- ══ 4. LAZEZ MENU ══ -->
+<div class="screen hidden" id="menu">
+  <div class="menu-hero">
+    <div class="b1"></div><div class="b2"></div>
+    <div class="sbar" style="color:rgba(255,255,255,.85);position:relative;z-index:1;"><span>9:55</span><span>▲ 5G 🔋</span></div>
+    <div class="menu-topbar">
+      <button class="icon-btn">🔍</button>
+      <div style="font-size:15px;font-weight:700;color:#fff;">عروض التوفير من لذيذ</div>
+      <button class="icon-btn" onclick="gb('signin')">✕</button>
+    </div>
+    <div class="promo-strip">
+      <div class="pt">
+        <div class="pt1">تشيكن كريسبي</div>
+        <div class="pt2">فطائر صدور الحجاج الكرسبي</div>
+      </div>
+      <div class="price">99 ج</div>
+      <button class="icon-btn">→</button>
+    </div>
+  </div>
+  <div class="rinfo">
+    <div class="rlogo">
+      <div class="rl1"><span>la</span><span style="color:rgba(255,255,255,.7);">Zez</span></div>
+      <div class="rl2">♛ لذيذ</div>
+    </div>
+    <div class="rdetail">
+      <div class="rname">لذيذ</div>
+      <div class="rsub">وجبات , مشويات , ساندوتشات ,</div>
+      <div class="rmeta">
+        <span class="star">⭐ 4.3/5.0</span>
+        <span style="color:var(--gray2);">(4,532)</span>
+        <span style="color:var(--gray2);">🕐 90–75 دقيقه</span>
+      </div>
+    </div>
+    <div class="rdel">🛵<br>15.0 ج.م</div>
+  </div>
+  <div class="tabs" id="tabs">
+    <div class="tab on" onclick="setTab(this,'saving')">وجبات التوفير</div>
+    <div class="tab" onclick="setTab(this,'family')">الوجبات العائليه</div>
+    <div class="tab" onclick="setTab(this,'grills')">مشويات لذيذ</div>
+    <div class="tab" onclick="setTab(this,'sandwiches')">ساندوتشات</div>
+    <div class="tab" onclick="setTab(this,'drinks')">مشروبات</div>
+  </div>
+  <div class="mbody" id="mbody"></div>
+  <div class="ckbar" id="ckbar" onclick="go('cart')">
+    <div class="ck-icon">
+      <span style="font-size:27px;">🛒</span>
+      <div class="ck-badge" id="ck-cnt">0</div>
+    </div>
+    <div class="ck-label">استمرار الى الدفع</div>
+    <div class="ck-total" id="ck-price">0 ج.م</div>
+  </div>
+</div>
+
+<!-- ══ 5. CART ══ -->
+<div class="screen hidden" id="cart">
+  <div class="sbar"><span>9:55</span><span>▲ 5G 🔋</span></div>
+  <div class="pheader">
+    <button class="bk" onclick="gb('menu')" style="background:var(--gray);color:var(--dark);">←</button>
+    <h2>سلة التسوق</h2>
+    <span class="psub" id="cart-cnt-lbl">0 عناصر</span>
+  </div>
+  <div class="cbody" id="cart-body"></div>
+  <div class="cfooter">
+    <button class="bigbtn" onclick="go('checkout')">اكمال الطلب / Checkout &nbsp;→</button>
+  </div>
+</div>
+
+<!-- ══ 6. CHECKOUT ══ -->
+<div class="screen hidden" id="checkout">
+  <div class="sbar"><span>9:55</span><span>▲ 5G 🔋</span></div>
+  <div class="pheader">
+    <button class="bk" onclick="gb('cart')" style="background:var(--gray);color:var(--dark);">←</button>
+    <h2>الدفع / Checkout</h2>
+  </div>
+  <div class="steps">
+    <div class="step-c"><div class="step-o on">1</div><div class="step-lbl on">العنوان</div></div>
+    <div class="step-line"></div>
+    <div class="step-c"><div class="step-o off">2</div><div class="step-lbl off">الدفع</div></div>
+    <div class="step-line"></div>
+    <div class="step-c"><div class="step-o off">3</div><div class="step-lbl off">تأكيد</div></div>
+  </div>
+  <div class="cobody">
+    <div class="scard">
+      <h3>عنوان التوصيل <span class="ar2">Delivery Address</span></h3>
+      <div class="mapbox">
+        <span style="font-size:22px;">📍</span>
+        <span class="loc">القاهرة، مدينة نصر</span>
+        <span class="chg">تغيير</span>
+      </div>
+      <label style="font-size:12px;color:var(--gray2);">تفاصيل الشقة / المبنى</label>
+      <input class="fsm" type="text" placeholder="شقة 5، بلوك 3، شارع النزهة" value="شقة 5، بلوك 3، شارع النزهة" style="margin-top:6px;">
+    </div>
+    <div class="scard">
+      <h3>طريقة الدفع <span class="ar2">Payment Method</span></h3>
+      <div class="payopt on" id="po1">
+        <div class="pio">💳</div>
+        <div style="flex:1;"><div class="pin">بطاقة ائتمان</div><div class="pis">Visa ···· 4242</div></div>
+        <div class="radio on" id="pr1"></div>
+      </div>
+      <div class="payopt" id="po2">
+        <div class="pio">📱</div>
+        <div style="flex:1;"><div class="pin">فودافون كاش</div><div class="pis">01X XXX XXXX</div></div>
+        <div class="radio" id="pr2"></div>
+      </div>
+      <div class="payopt" id="po3">
+        <div class="pio">💵</div>
+        <div style="flex:1;"><div class="pin">الدفع عند الاستلام</div><div class="pis">ادفع لحظة التسليم</div></div>
+        <div class="radio" id="pr3"></div>
+      </div>
+    </div>
+    <div class="promo-ok">
+      <div><div class="pc">🏷 LAZEZ50</div><div class="ps">تم تطبيق خصم 50%!</div></div>
+      <span style="font-size:20px;color:var(--teal);">✓</span>
+    </div>
+    <div class="scard" style="padding:14px 16px;" id="co-sum">
+      <div class="srow"><span>الإجمالي الفرعي</span><span id="co-sub">—</span></div>
+      <div class="srow"><span>رسوم التوصيل</span><span>15.00 ج</span></div>
+      <div class="srow disc"><span>خصم (LAZEZ50 −50%)</span><span class="v" id="co-disc">—</span></div>
+      <div class="srow total"><span>الإجمالي</span><span class="v" id="co-tot">—</span></div>
+    </div>
+  </div>
+  <div class="cofooter">
+    <button class="bigbtn" onclick="go('confirmed')">تأكيد الطلب / Place Order &nbsp;→</button>
+  </div>
+</div>
+
+<!-- ══ 7. ORDER CONFIRMED ══ -->
+<div class="screen hidden" id="confirmed">
+  <div class="sbar"><span>9:55</span><span>▲ 5G 🔋</span></div>
+  <div class="conbody">
+    <div class="check-out">
+      <div class="check-in">✓</div>
+    </div>
+    <div class="con-title">Order Placed!</div>
+    <div class="con-ar">تم تأكيد طلبك 🎉</div>
+    <div class="oid">
+      <div class="oid-lbl">رقم الطلب / Order ID</div>
+      <div class="oid-val">#LZ-20260521-0042</div>
+    </div>
+    <div class="tcard">
+      <h3>تتبع الطلب / Order Tracking</h3>
+      <div class="tstep"><div class="tstep-ico">✅</div><div><div class="tstep-lbl">تأكيد الطلب</div><div class="tstep-time on">الآن</div></div></div>
+      <div class="tstep"><div class="tstep-ico">🔄</div><div><div class="tstep-lbl off">جاري التحضير</div><div class="tstep-time">~15 دقيقة</div></div></div>
+      <div class="tstep"><div class="tstep-ico">🛵</div><div><div class="tstep-lbl off">في الطريق إليك</div><div class="tstep-time">~45 دقيقة</div></div></div>
+      <div class="tstep"><div class="tstep-ico">📍</div><div><div class="tstep-lbl off">تم التوصيل</div><div class="tstep-time">~75 دقيقة</div></div></div>
+    </div>
+    <div class="con-actions">
+      <button class="ghost">💬 تواصل مع الدعم</button>
+      <button class="bigbtn" onclick="go('menu')">🏠 العودة إلى القائمة</button>
+    </div>
+  </div>
+</div>
+
+</div><!-- /shell -->
+
+<script>
+// ── Menu data ─────────────────────────────────────────────────────────────────
+const MENU = {
+  saving:[
+    {name:"وجبة توفير شيش طاووق",desc:"تقدم مع الأرز أو البطاطس",price:105,emoji:"🍗",bg:"#FFF3E0"},
+    {name:"وجبة توفير كفتة لحمة",desc:"تقدم مع الأرز أو البطاطس",price:109,emoji:"🥩",bg:"#FCE4EC"},
+    {name:"وجبة توفير تكا",desc:"تقدم مع الأرز أو البطاطس",price:99,emoji:"🍖",bg:"#F3E5F5"},
+    {name:"وجبة توفير الفراخة كاملة",desc:"فراخة كاملة مشوية مع الأرز والسلطة",price:189,emoji:"🍗",bg:"#E8F5E9"},
+    {name:"وجبة توفير الكباب المشكل",desc:"كباب + كفتة + شيش طاووق",price:135,emoji:"🍢",bg:"#FFF8E1"},
+  ],
+  family:[
+    {name:"وجبة عائلية كبيرة",desc:"4 قطع دجاج + أرز + سلطة + مشروب",price:320,emoji:"🍱",bg:"#FFF3E0"},
+    {name:"وجبة عائلية مشويات",desc:"كباب + كفتة + شيش + 2 خبز + أرز",price:380,emoji:"🥘",bg:"#FCE4EC"},
+    {name:"وجبة عائلية كريسبي",desc:"8 قطع تشيكن كريسبي + بطاطس + صوص",price:295,emoji:"🍗",bg:"#E8F5E9"},
+  ],
+  grills:[
+    {name:"شيش طاووق",desc:"6 قطع شيش طاووق طازجة مشوية",price:75,emoji:"🍗",bg:"#FFF3E0"},
+    {name:"كباب لحمة",desc:"4 أصابع كباب لحم بقري",price:89,emoji:"🥩",bg:"#FCE4EC"},
+    {name:"كفتة لحمة",desc:"4 أصابع كفتة لحم بقري",price:85,emoji:"🥩",bg:"#F3E5F5"},
+    {name:"تكا فراخ",desc:"قطع تكا فراخ مشوية بتوابل مميزة",price:79,emoji:"🍖",bg:"#FFF8E1"},
+    {name:"مشكل مشويات",desc:"شيش + كباب + كفتة + خبز",price:119,emoji:"🍢",bg:"#E8F5E9"},
+  ],
+  sandwiches:[
+    {name:"ساندوتش تشيكن كريسبي",desc:"صدر دجاج كريسبي + خس + صوص سويسري",price:65,emoji:"🥪",bg:"#FFF3E0"},
+    {name:"ساندوتش شيش طاووق",desc:"شيش طاووق + طحينة + خضار",price:55,emoji:"🌯",bg:"#E8F5E9"},
+    {name:"ساندوتش كفتة",desc:"كفتة لحمة + صوص حار + بصل",price:59,emoji:"🥙",bg:"#FCE4EC"},
+    {name:"ساندوتش تكا",desc:"تكا فراخ + ثوم + خضار طازجة",price:60,emoji:"🌮",bg:"#F3E5F5"},
+  ],
+  drinks:[
+    {name:"كولا 500 مل",desc:"مشروب غازي بارد",price:18,emoji:"🥤",bg:"#E3F2FD"},
+    {name:"عصير برتقال طازج",desc:"عصير برتقال طبيعي 100%",price:25,emoji:"🍊",bg:"#FFF8E1"},
+    {name:"مياه معدنية",desc:"زجاجة 600 مل",price:10,emoji:"💧",bg:"#E8F5E9"},
+    {name:"تي بارد",desc:"شاي مثلج بالليمون",price:20,emoji:"🧋",bg:"#F3E5F5"},
+  ],
+};
+
+// ── Cart ──────────────────────────────────────────────────────────────────────
+let cart = [];
+let currentTab = 'saving';
+
+function renderMenu(tab) {
+  currentTab = tab;
+  const items = MENU[tab] || [];
+  const secTitles = {saving:'وجبات التوفير',family:'الوجبات العائلية',grills:'مشويات لذيذ',sandwiches:'ساندوتشات',drinks:'مشروبات'};
+  let html = `<div class="msec">${secTitles[tab]}</div>`;
+  items.forEach((item, i) => {
+    html += `
+    <div class="mitem" onclick="addItem(${i})">
+      <div class="mitem-img" style="background:${item.bg};">${item.emoji}</div>
+      <div class="mitem-body">
+        <div class="mitem-name">${item.name}</div>
+        <div class="mitem-desc">${item.desc}</div>
+        <div class="mitem-footer">
+          <div class="mitem-price">${item.price.toFixed(2)} ج.م</div>
+          <button class="add-btn" id="addbtn-${i}">+</button>
+        </div>
+      </div>
+    </div>`;
+  });
+  document.getElementById('mbody').innerHTML = html;
+}
+
+function setTab(el, tab) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
+  el.classList.add('on');
+  renderMenu(tab);
+}
+
+function addItem(i) {
+  const item = MENU[currentTab][i];
+  const key = currentTab + '_' + i;
+  const ex = cart.find(c => c.key === key);
+  if (ex) { ex.qty++; }
+  else { cart.push({key, name:item.name, price:item.price, emoji:item.emoji, bg:item.bg, qty:1}); }
+  updateBar();
+  // Flash button
+  const btn = document.getElementById('addbtn-' + i);
+  if (btn) { btn.textContent='✓'; btn.style.background='#4CAF50'; setTimeout(()=>{btn.textContent='+';btn.style.background='';},700); }
+}
+
+function updateBar() {
+  const total = cart.reduce((s,c)=>s+c.qty,0);
+  const sub = cart.reduce((s,c)=>s+c.price*c.qty,0);
+  const bar = document.getElementById('ckbar');
+  bar.style.display = total > 0 ? 'flex' : 'none';
+  document.getElementById('ck-cnt').textContent = total;
+  document.getElementById('ck-price').textContent = sub.toFixed(2) + ' ج.م';
+}
+
+function renderCart() {
+  const total = cart.reduce((s,c)=>s+c.qty,0);
+  document.getElementById('cart-cnt-lbl').textContent = total + ' عناصر';
+  let html = '';
+  cart.forEach((item, idx) => {
+    html += `
+    <div class="citem">
+      <div class="citem-img" style="background:${item.bg};">${item.emoji}</div>
+      <div class="citem-info">
+        <div class="citem-name">${item.name}</div>
+        <div class="citem-price">${item.price.toFixed(2)} ج.م / للوحدة</div>
+        <div class="qrow">
+          <span class="delbtn" onclick="removeItem(${idx})">🗑</span>
+          <span class="itotal">${(item.price*item.qty).toFixed(2)} ج</span>
+          <button class="qbtn m" onclick="chgQty(${idx},-1)">−</button>
+          <span class="qval">${item.qty}</span>
+          <button class="qbtn p" onclick="chgQty(${idx},1)">+</button>
+        </div>
+      </div>
+    </div>`;
+  });
+  const sub = cart.reduce((s,c)=>s+c.price*c.qty,0);
+  const disc = sub * 0.5;
+  const tot = sub - disc + 15;
+  html += `
+  <div class="sumcard">
+    <h3>ملخص الطلب</h3>
+    <div class="srow"><span>الإجمالي الفرعي</span><span>${sub.toFixed(2)} ج</span></div>
+    <div class="srow"><span>التوصيل</span><span>15.00 ج</span></div>
+    <div class="srow disc"><span>خصم LAZEZ50 (−50%)</span><span class="v">−${disc.toFixed(2)} ج</span></div>
+    <div class="srow total"><span>الإجمالي</span><span class="v">${tot.toFixed(2)} ج</span></div>
+  </div>
+  <div class="promobox">
+    <span>🏷 LAZEZ50 — تم تطبيق خصم 50%</span>
+    <span class="ap">✓</span>
+  </div>`;
+  document.getElementById('cart-body').innerHTML = html;
+}
+
+function chgQty(idx, d) { cart[idx].qty = Math.max(1, cart[idx].qty+d); renderCart(); updateBar(); }
+function removeItem(idx) { cart.splice(idx,1); renderCart(); updateBar(); }
+
+function renderCheckout() {
+  const sub = cart.reduce((s,c)=>s+c.price*c.qty,0);
+  const disc = sub*0.5;
+  const tot = sub-disc+15;
+  document.getElementById('co-sub').textContent = sub.toFixed(2)+' ج';
+  document.getElementById('co-disc').textContent = '−'+disc.toFixed(2)+' ج';
+  document.getElementById('co-tot').textContent = tot.toFixed(2)+' ج';
+}
+
+// ── Payment options ───────────────────────────────────────────────────────────
+[1,2,3].forEach(i => {
+  document.getElementById('po'+i).addEventListener('click', () => {
+    [1,2,3].forEach(j => {
+      document.getElementById('po'+j).classList.remove('on');
+      document.getElementById('pr'+j).classList.remove('on');
+    });
+    document.getElementById('po'+i).classList.add('on');
+    document.getElementById('pr'+i).classList.add('on');
+  });
+});
+
+// ── Navigation ────────────────────────────────────────────────────────────────
+function go(id) {
+  const cur = document.querySelector('.screen:not(.hidden)');
+  if (cur) { cur.classList.add('back'); setTimeout(()=>{cur.classList.add('hidden');cur.classList.remove('back');},320); }
+  const nxt = document.getElementById(id);
+  nxt.classList.remove('hidden');
+  if (id==='cart') renderCart();
+  if (id==='checkout') renderCheckout();
+}
+function gb(id) {
+  const cur = document.querySelector('.screen:not(.hidden)');
+  if (cur) {
+    cur.style.transform='translateX(110%)'; cur.style.opacity='0';
+    setTimeout(()=>{ cur.style.transform=''; cur.style.opacity=''; cur.classList.add('hidden'); },320);
+  }
+  const prev = document.getElementById(id);
+  prev.classList.remove('hidden');
+  prev.style.transform='translateX(-20%)'; prev.style.opacity='0';
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    prev.style.transition='transform .3s ease,opacity .3s';
+    prev.style.transform=''; prev.style.opacity='1';
+    setTimeout(()=>prev.style.transition='',320);
+  }));
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+renderMenu('saving');
+setTimeout(() => go('language'), 2000);
+</script>
+</body>
+</html>
